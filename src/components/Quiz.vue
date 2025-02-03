@@ -59,6 +59,26 @@ const downloadStory = async () => {
     console.warn('Elemento .story no encontrado.')
   }
 }
+const compartirEnTwitter = () => {
+  if (!result.value) return; 
+  const texto = encodeURIComponent(`¡Mira la historia isekai que generé! ${result.value}`);
+  const url = `https://twitter.com/intent/tweet?text=${texto}`;
+  window.open(url, "_blank");
+};
+
+const compartirEnFacebook = () => {
+  if (!result.value) return;
+  const texto = encodeURIComponent(`¡Mira la historia isekai que generé!`);
+  const url = `https://www.facebook.com/sharer/sharer.php?u=https://isekai.com&quote=${texto}`;
+  window.open(url, "_blank");
+};
+
+const compartirEnWhatsApp = () => {
+  if (!result.value) return;
+  const texto = encodeURIComponent(`¡Mira la historia isekai que generé! ${result.value}`);
+  const url = `https://wa.me/?text=${texto}`;
+  window.open(url, "_blank");
+};
 
 onMounted(() => {
   gsap.fromTo('.quiz-container', { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1.5 })
@@ -124,6 +144,24 @@ onMounted(() => {
             📥 Descargar como imagen
           </button>
         </div>
+        <div class="flex flex-wrap justify-center gap-4 mt-4">
+          <button @click="compartirEnTwitter"
+              class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
+              ✖ Compartir en X
+          </button>
+
+
+            <button @click="compartirEnFacebook"
+                class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg">
+                📘 Compartir en Facebook
+            </button>
+
+            <button @click="compartirEnWhatsApp"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">
+                💬 Compartir en WhatsApp
+            </button>
+        </div>
+
       </div>
     </div>
   </div>
