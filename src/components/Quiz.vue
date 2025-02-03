@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
+import gsap from 'gsap'
 import html2canvas from 'html2canvas'
 
 interface Answers {
@@ -33,6 +34,9 @@ const downloadStory = async () => {
     link.click()
   }
 }
+onMounted(() => {
+  gsap.fromTo('.quiz-container', { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1.5 })
+})
 </script>
 
 <template>

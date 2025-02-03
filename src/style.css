@@ -19,3 +19,8 @@ option {
   color: black !important; /* Asegura que el texto dentro del select sea visible */
   background-color: white   !important;
 }
+.story {
+  background-color: #1a1a2e !important; /* O el color oscuro que usas */
+  padding: 20px;
+  border-radius: 10px;
+}
