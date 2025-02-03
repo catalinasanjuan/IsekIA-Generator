@@ -13,7 +13,7 @@ export const generateIsekaiStory = async (personality: string, death: string, po
     const response = await cohere.generate({
         model: "command-r-plus",
       prompt: prompt,
-      max_tokens: 300, // ✅ Esto sí es válido en Cohere
+      maxTokens: 300, // ✅ Corrección aplicada
       temperature: 0.7,
     });
 
