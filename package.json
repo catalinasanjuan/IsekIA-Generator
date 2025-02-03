@@ -11,8 +11,10 @@
   "dependencies": {
     "@vueuse/core": "^10.7.2",
     "axios": "^1.7.9",
+    "cohere-ai": "^7.15.4",
     "gsap": "^3.12.7",
     "html2canvas": "^1.4.1",
+    "openai": "^4.82.0",
     "vue": "^3.4.38"
   },
   "devDependencies": {

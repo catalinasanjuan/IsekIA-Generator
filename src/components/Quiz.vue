@@ -1,7 +1,9 @@
 <script setup lang="ts">
+
 import { ref, onMounted, nextTick } from 'vue'
 import gsap from 'gsap'
 import html2canvas from 'html2canvas'
+import { generateIsekaiStory } from '../api'
 
 interface Answers {
   personality: string
@@ -16,28 +18,53 @@ const answers = ref<Answers>({
 })
 
 const result = ref<string>('')
+const loading = ref<boolean>(false)
 
-const generateStory = () => {
+const generateStory = async () => {
+  if (loading.value) return; // Evita múltiples clics seguidos
+  loading.value = true
   const { personality, death, power } = answers.value
-  result.value = `Has sido reencarnado en un nuevo mundo como un aventurero ${personality}. 
-    Tu muerte en el mundo real (${death}) te ha otorgado la habilidad única de ${power}.
-    Ahora, estás destinado a cambiar el destino de este mundo y convertirte en una leyenda.`
+
+  try {
+    result.value = await generateIsekaiStory(personality, death, power) // Asegurar que la IA responde antes de continuar
+  } catch (error) {
+    console.error('Error al generar la historia:', error)
+    result.value = 'Hubo un error generando la historia. Inténtalo de nuevo.'
+  }
+
+  loading.value = false
+
+  nextTick(() => {
+    gsap.fromTo('.story', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1 })
+  })
 }
 
 const downloadStory = async () => {
-  const element = document.querySelector('.story')
+  const element = document.querySelector('.story') as HTMLElement | null
   if (element) {
-    const canvas = await html2canvas(element)
-    const link = document.createElement('a')
-    link.download = 'isekai_story.png'
-    link.href = canvas.toDataURL()
-    link.click()
+    try {
+      const canvas = await html2canvas(element, {
+        backgroundColor: '#1a1a2e',
+        scale: 2,
+        useCORS: true
+      })
+      const link = document.createElement('a')
+      link.download = 'isekai_story.png'
+      link.href = canvas.toDataURL('image/png')
+      link.click()
+    } catch (error) {
+      console.error('Error al capturar la historia:', error)
+    }
+  } else {
+    console.warn('Elemento .story no encontrado.')
   }
 }
+
 onMounted(() => {
   gsap.fromTo('.quiz-container', { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: 1.5 })
 })
 </script>
+
 
 <template>
   <div class="min-h-screen bg-gradient-to-b from-gray-900 to-indigo-900 py-12 px-4">
