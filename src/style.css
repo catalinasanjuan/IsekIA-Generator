@@ -14,3 +14,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+option {
+  color: black !important; /* Asegura que el texto dentro del select sea visible */
+  background-color: white   !important;
+}
